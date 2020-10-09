@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { bookList } from 'actions';
 import logo from 'assets/logo.png';
 import Input from 'components/Input/Input';
+import Card from 'components/Card/Card';
 
 const Wrapper = styled.main`
   width: 90%;
@@ -32,31 +35,66 @@ const StyledLabel = styled.label`
   font-size: ${({ theme }) => theme.fontSize.m};
 `;
 
-const HomeView = () => (
-  <Wrapper>
-    <Logo src={logo} alt="book seacher logo" />
-    <StyledForm>
-      <StyledLabel>
-        <p>Book title</p>
-        <Input search type="text" />
-      </StyledLabel>
-      <StyledLabel>
-        {'Author'}
-        <Input type="text" />
-      </StyledLabel>
-      <StyledLabel>
-        {'Language'}
-        <Input type="text" />
-      </StyledLabel>
-      <StyledLabel>
-        {'Published date'}
-        <Input type="date" />
-      </StyledLabel>
-    </StyledForm>
-    <section>
-      <div />
-    </section>
-  </Wrapper>
-);
+const HomeView = () => {
+  const [title, setTitle] = useState('flowers');
+  const [author, setAuthor] = useState('');
+  const [language, setLanguage] = useState('');
+  const [publishedDate, setPublishedDate] = useState('');
+
+  const listOfBooks = useSelector(state => state.bookList);
+  const { books, loading, error } = listOfBooks;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(bookList(title, author, language, publishedDate));
+  }, [dispatch]);
+
+  return loading ? (
+    <div>LOADING ...</div>
+  ) : (
+    <Wrapper>
+      {error ? (
+        <div>ERROR</div>
+      ) : (
+        <>
+          <Logo src={logo} alt="book seacher logo" />
+          <StyledForm>
+            <StyledLabel>
+              <p>Book title</p>
+              <Input search type="text" />
+            </StyledLabel>
+            <StyledLabel>
+              {'Author'}
+              <Input type="text" />
+            </StyledLabel>
+            <StyledLabel>
+              {'Language'}
+              <Input type="text" />
+            </StyledLabel>
+            <StyledLabel>
+              {'Published date'}
+              <Input type="date" />
+            </StyledLabel>
+          </StyledForm>
+          <section>
+            {books.length > 0 &&
+              books.map(book => {
+                return (
+                  <Card
+                    key={book.id}
+                    title={book.volumeInfo.title}
+                    author={book.volumeInfo.authors}
+                    image={book.volumeInfo.imageLinks.thumbnail}
+                    language={book.volumeInfo.language}
+                    publishedDate={book.volumeInfo.publishedDate}
+                  />
+                );
+              })}
+          </section>
+        </>
+      )}
+    </Wrapper>
+  );
+};
 
 export default HomeView;
