@@ -8,7 +8,7 @@ const Input = styled.input`
   font-size: ${({ theme }) => theme.fontSize.xs};
   padding-left: 15px;
   ::placeholder {
-    text-transform: uppercase;
+    color: #aaa;
   }
 
   @media (min-width: 1000px) {
