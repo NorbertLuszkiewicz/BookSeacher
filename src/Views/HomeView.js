@@ -68,6 +68,19 @@ const ButtonWrapper = styled.div`
   width: 100%;
 `;
 
+const CardWrapper = styled.section`
+  display: grid;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 10px;
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
 const HomeView = () => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -137,23 +150,25 @@ const HomeView = () => {
             <Button>Search</Button>
           </ButtonWrapper>
         </StyledForm>
-        <section>
+        <CardWrapper>
           {error ? (
             <div>ERROR</div>
           ) : (
             books &&
-            books.map(book => {
-              return (
-                <Card
-                  key={book.id}
-                  title={book.volumeInfo.title}
-                  image={book.volumeInfo.imageLinks}
-                  description={book.volumeInfo.description}
-                />
-              );
-            })
+            books
+              .filter(book => (language !== '' ? book.volumeInfo.language === language : true))
+              .map(book => {
+                return (
+                  <Card
+                    key={book.id}
+                    title={book.volumeInfo.title}
+                    image={book.volumeInfo.imageLinks}
+                    description={book.volumeInfo.description}
+                  />
+                );
+              })
           )}
-        </section>
+        </CardWrapper>
       </>
     </Wrapper>
   );
