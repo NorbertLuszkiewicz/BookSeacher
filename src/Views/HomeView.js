@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { bookList } from 'actions';
 import logo from 'assets/logo.png';
 import Input from 'components/Input/Input';
+import Button from 'components/Button/Button';
 import Card from 'components/Card/Card';
 
 const Wrapper = styled.main`
@@ -34,34 +35,7 @@ const StyledLabel = styled.label`
   margin: 10px 0;
   font-size: ${({ theme }) => theme.fontSize.s};
 `;
-const Button = styled.button`
-  position: relative;
-  width: 250px;
-  font-size: ${({ theme }) => theme.fontSize.s};
-  padding: 7px;
-  background: none;
-  border-radius: 10px;
-  font-weight: bold;
-  overflow: hidden;
 
-  ::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #64b5f6;
-
-    transform: translateY(100%);
-    z-index: -1;
-    transition: transform 0.3s ease;
-  }
-
-  :hover::before {
-    transform: translateY(0);
-  }
-`;
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -72,43 +46,80 @@ const CardWrapper = styled.section`
   display: grid;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, auto);
     column-gap: 10px;
   }
 
   @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, auto);
+  }
+`;
+
+const Status = styled.p`
+  margin-top: 20px;
+
+  @media (min-width: 768px) {
+    padding-left: 10px;
+  }
+
+  @media (min-width: 1200px) {
+    padding-left: 20px;
   }
 `;
 
 const HomeView = () => {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
   const [language, setLanguage] = useState('');
+  const [index, setIndex] = useState(0);
 
   const [bookState, setBookState] = useState([title, author, publisher]);
+  const [renderingBooks, setRenderingBooks] = useState([]);
 
   const listOfBooks = useSelector(state => state.bookList);
   const { books, loading, error } = listOfBooks;
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(bookList(title, author, publisher));
-  }, [bookState]);
-
-  const funckcjamoja = e => {
+  const handleSearchBook = e => {
     e.preventDefault();
     setBookState([title, author, publisher]);
   };
 
-  return loading ? (
-    <div>LOADING ...</div>
-  ) : (
+  window.onscroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      setIndex(index + 12);
+    }
+  };
+
+  useEffect(() => {
+    if (title !== '' || author !== '' || publisher !== '') {
+      dispatch(bookList(title, author, publisher, index));
+      setRenderingBooks([]);
+      setIndex(0);
+    }
+  }, [bookState]);
+
+  useEffect(() => {
+    if (title !== '' || author !== '' || publisher !== '') {
+      dispatch(bookList(title, author, publisher, index));
+    }
+  }, [index]);
+
+  useEffect(() => {
+    if (books) {
+      setRenderingBooks([...renderingBooks, ...books]);
+    }
+  }, [books]);
+
+  return (
     <Wrapper>
       <>
         <Logo src={logo} alt="book seacher logo" />
-        <StyledForm onSubmit={e => funckcjamoja(e)}>
+        <StyledForm onSubmit={e => handleSearchBook(e)}>
           <StyledLabel>
             <p>Book title</p>
             <Input
@@ -141,7 +152,7 @@ const HomeView = () => {
             {'Language'}
             <Input
               type="text"
-              placeholder="en"
+              placeholder="e.g. en, pl"
               value={language}
               onChange={e => setLanguage(e.target.value)}
             />
@@ -150,12 +161,11 @@ const HomeView = () => {
             <Button>Search</Button>
           </ButtonWrapper>
         </StyledForm>
-        <CardWrapper>
-          {error ? (
-            <div>ERROR</div>
-          ) : (
-            books &&
-            books
+        {error ? (
+          <Status>{error}</Status>
+        ) : (
+          <CardWrapper>
+            {renderingBooks
               .filter(book => (language !== '' ? book.volumeInfo.language === language : true))
               .map(book => {
                 return (
@@ -166,9 +176,10 @@ const HomeView = () => {
                     description={book.volumeInfo.description}
                   />
                 );
-              })
-          )}
-        </CardWrapper>
+              })}
+            {loading && <Status>LOADING</Status>}
+          </CardWrapper>
+        )}
       </>
     </Wrapper>
   );
