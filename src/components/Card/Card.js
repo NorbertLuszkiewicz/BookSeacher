@@ -35,12 +35,12 @@ const Card = ({ title, image, description }) => {
   const noBookImage = 'https://cdn.pixabay.com/photo/2014/04/02/16/21/book-307045_960_720.png';
 
   return (
-    <Wrapper>
-      <Img src={image.thumbnail || noBookImage} alt={title} />
-      <Title>{title}</Title>
+    <Wrapper data-testid="card">
+      <Img src={image.thumbnail || noBookImage} data-testid="img" />
+      <Title data-testid="title">{title}</Title>
       {description && (
         <ParagraphWrapper>
-          <Paragraph>{description} </Paragraph>
+          <Paragraph data-testid="paragraph">{description}</Paragraph>
         </ParagraphWrapper>
       )}
     </Wrapper>
@@ -49,7 +49,7 @@ const Card = ({ title, image, description }) => {
 
 Card.propTypes = {
   title: PropTypes.string.isRequired,
-  image: PropTypes.string,
+  image: PropTypes.shape({ thumbnail: PropTypes.string }),
   description: PropTypes.string,
 };
 
