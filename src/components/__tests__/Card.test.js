@@ -25,11 +25,7 @@ describe('Card component', () => {
 
   describe('Title element', () => {
     it('renders img element', () => {
-      const { getByTestId } = render(
-        <ThemeProvider theme={theme}>
-          <Card title="Title" />
-        </ThemeProvider>,
-      );
+      const { getByTestId } = renderCard();
 
       expect(getByTestId(/title/i)).toBeInTheDocument();
     });
