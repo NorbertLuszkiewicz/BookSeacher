@@ -116,9 +116,9 @@ const HomeView = () => {
   }, [books]);
 
   return (
-    <Wrapper>
+    <Wrapper data-testid="home">
       <>
-        <Logo src={logo} alt="book seacher logo" />
+        <Logo src={logo} alt="logo book seacher " data-testid="logo" />
         <StyledForm onSubmit={e => handleSearchBook(e)}>
           <StyledLabel>
             <p>Book title</p>
