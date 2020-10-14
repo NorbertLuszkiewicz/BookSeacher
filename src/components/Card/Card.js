@@ -55,7 +55,7 @@ Card.propTypes = {
 
 Card.defaultProps = {
   description: '',
-  image: '',
+  image: {},
 };
 
 export default Card;
