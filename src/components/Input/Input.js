@@ -5,7 +5,7 @@ const Input = styled.input`
   height: 30px;
   margin: 0 10px;
   border-radius: 40px;
-  font-size: ${({ theme }) => theme.fontSize.xs};
+  font-size: ${({ theme }) => theme.fontSize.s};
   padding-left: 15px;
   ::placeholder {
     color: #aaa;
@@ -18,7 +18,6 @@ const Input = styled.input`
   ${({ search }) =>
     search &&
     css`
-      font-size: ${({ theme }) => theme.fontSize.xxs};
       background-image: url(${magnifierIcon});
       background-repeat: no-repeat;
       background-position: 10px;

@@ -1,11 +1,9 @@
 export const theme = {
-  notes: 'hsl(49, 100%, 58%)',
+  Primary: '#64b5f6',
 
   fontSize: {
-    xs: '1.4rem',
-    s: '1.6rem',
-    m: '2.1rem',
-    l: '2.4rem',
-    xl: '4rem',
+    s: '1.4rem',
+    m: '1.6rem',
+    l: '2.1rem',
   },
 };

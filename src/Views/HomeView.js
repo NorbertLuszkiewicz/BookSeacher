@@ -33,7 +33,7 @@ const StyledLabel = styled.label`
   display: flex;
   line-height: 30px;
   margin: 10px 0;
-  font-size: ${({ theme }) => theme.fontSize.s};
+  font-size: ${({ theme }) => theme.fontSize.m};
 `;
 
 const ButtonWrapper = styled.div`
@@ -46,12 +46,12 @@ const CardWrapper = styled.section`
   display: grid;
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(2, 1fr);
     column-gap: 10px;
   }
 
   @media (min-width: 1200px) {
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(3, 1fr);
   }
 `;
 
@@ -59,11 +59,11 @@ const Status = styled.p`
   margin-top: 20px;
 
   @media (min-width: 768px) {
-    padding-left: 10px;
+    padding-left: calc(50% + 10px);
   }
 
   @media (min-width: 1200px) {
-    padding-left: 20px;
+    padding-left: calc(100% + 20px);
   }
 `;
 

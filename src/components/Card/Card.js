@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
   width: 100%;
-  border: 4px solid #fff77a;
+  border: 4px solid ${({ theme }) => theme.Primary};
   border-radius: 10px;
   padding: 10px;
   text-align: center;
@@ -12,12 +12,12 @@ const Wrapper = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: ${({ theme }) => theme.fontSize.m};
+  font-size: ${({ theme }) => theme.fontSize.l};
   margin: 10px 0;
 `;
 
 const Paragraph = styled.p`
-  font-size: ${({ theme }) => theme.fontSize.s};
+  font-size: ${({ theme }) => theme.fontSize.m};
   margin: 5px 0;
   text-overflow: clip;
 `;

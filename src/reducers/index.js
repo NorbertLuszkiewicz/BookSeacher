@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { FIND_BOOK_REQUEST, FIND_BOOK_SUCCESS, FIND_BOOK_FAILURE } from 'actions';
 
 export function bookListReducer(state = { books: [] }, action) {

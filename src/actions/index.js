@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-export const FIND_BOOK_REQUEST = 'FIND_TITLE_REQUEST';
-export const FIND_BOOK_SUCCESS = 'FIND_TITLE_SUCCESS';
-export const FIND_BOOK_FAILURE = 'FIND_TITLE_FAILURE';
+export const FIND_BOOK_REQUEST = 'FIND_BOOK_REQUEST';
+export const FIND_BOOK_SUCCESS = 'FIND_BOOK_SUCCESS';
+export const FIND_BOOK_FAILURE = 'FIND_BOOK_FAILURE';
 
 const API_URL = 'https://www.googleapis.com/books/v1/';
 
